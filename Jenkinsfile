@@ -1,19 +1,20 @@
 pipeline {
     agent {
         docker {
-            image 'med3301/jenkins-agent:1.0'  // Replace with your actual Docker image name
-            reuseNode true  // Optionally reuse the same node for multiple steps
+            image 'med3301/jenkins-agent:1.0'  // Docker image from Docker Hub
+            reuseNode true  // Reuse the same node for multiple steps, reducing overhead
         }
     }
+
     tools {
-        jdk 'Java17'
-        maven 'Maven3'
+        jdk 'Java17'  // Ensure Java 17 is installed in your Docker container or your Jenkins environment
+        maven 'Maven3'  // Ensure Maven 3 is installed in your Docker container or Jenkins environment
     }
 
     stages {
         stage("Cleanup Workspace") {
             steps {
-                cleanWs()
+                cleanWs()  // Clean the workspace before starting the build
             }
         }
 
@@ -23,5 +24,6 @@ pipeline {
             }
         }
         
+        // Additional stages (e.g., Build, Test) can go here
     }
 }
