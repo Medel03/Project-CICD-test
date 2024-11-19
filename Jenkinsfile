@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             image 'med3301/jenkins-agent:1.0'
-            args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // mount Docker socket to access the host's Docker daemon
+            args '-v /var/run/docker.sock:/var/run/docker.sock' // mount Docker socket to access the host's Docker daemon
         } 
     }
 
@@ -21,12 +21,6 @@ pipeline {
         stage("Checkout from SCM") {
             steps {
                 git branch: 'main', credentialsId: 'github', url: 'https://github.com/Medel03/Project-CICD-test'
-            }
-        }
-
-        stage('Check Docker Access') {
-            steps {
-                sh 'docker ps'  // List running containers to verify Docker access
             }
         }
 
