@@ -2,13 +2,8 @@ pipeline {
     agent {
         docker {
             image 'med3301/jenkins-agent:v2.0'
-            args '--user root -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/jenkins/workspace:/workspace' // mount Docker socket to access the host's Docker daemon
+            args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // mount Docker socket to access the host's Docker daemon
         } 
-    }
-
-    tools {
-        jdk 'Java17'  // Ensure Java 17 is installed in your Docker container or your Jenkins environment
-        maven 'Maven3'  // Ensure Maven 3 is installed in your Docker container or Jenkins environment
     }
 
     stages {
@@ -27,13 +22,13 @@ pipeline {
         stage("Build Application") {
             steps {
                 sh "ls -ltr"
-                sh "cd workspace && mvn clean package"
+                sh "mvn clean package"
             }
         }
 
         stage("Test Application") {
             steps {
-                sh "cd workspace && mvn test"
+                sh "mvn test"
             }
         }
         
