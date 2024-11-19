@@ -3,6 +3,8 @@ pipeline {
         docker {
             image 'med3301/jenkins-agent:1.0'
             args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // mount Docker socket to access the host's Docker daemon
+            args '--user root -v /var/lib/jenkins/workspace/e2e-pipeline-test:/var/lib/jenkins/workspace/e2e-pipeline-test'
+
         } 
     }
 
@@ -26,15 +28,14 @@ pipeline {
 
         stage("Build Application and Test") {
             steps {
-                sh "cd Project-CICD-test && mvn clean package"
-                sh "mvn test"
+                sh 'ls -ltr'
+                sh 'mvn clean package'
             }
         }
 
         stage("Test Application") {
             steps {
-                sh "cd Project-CICD-test"
-                sh "mvn test"
+                sh 'mvn test'
             }
         }
         
