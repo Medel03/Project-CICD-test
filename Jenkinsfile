@@ -19,6 +19,17 @@ pipeline {
             }
         }
 
+        stages {
+        stage('Verify Workspace') {
+            steps {
+                script {
+                    // Print current workspace directory
+                    sh 'echo "Current Workspace: $(pwd)"'
+                    }
+                }
+            }
+        }
+
         stage("Build Application") {
             steps {
                 sh "ls -ltr"
