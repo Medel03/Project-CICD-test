@@ -24,15 +24,17 @@ pipeline {
             }
         }
 
-        stage("Build Application") {
+        stage("Build Application and Test") {
             steps {
-                sh "mvn clean package -U -X"
+                sh "cd Project-CICD-test && mvn clean package"
+                sh "mvn test"
             }
         }
 
         stage("Test Application") {
             steps {
-                sh "mvn test -X"
+                sh "cd Project-CICD-test"
+                sh "mvn test"
             }
         }
         
