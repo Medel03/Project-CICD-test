@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'med3301/jenkins-agent:1.1'
+            image 'med3301/jenkins-agent:v2.0'
             args '--user root -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/jenkins/workspace:/workspace' // mount Docker socket to access the host's Docker daemon
         } 
     }
