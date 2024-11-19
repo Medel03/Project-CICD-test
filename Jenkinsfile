@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             image 'med3301/jenkins-agent:1.0'
-            args '-v /var/run/docker.sock:/var/run/docker.sock' // mount Docker socket to access the host's Docker daemon
+            args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // mount Docker socket to access the host's Docker daemon
         } 
     }
 
@@ -21,6 +21,15 @@ pipeline {
         stage("Checkout from SCM") {
             steps {
                 git branch: 'main', credentialsId: 'github', url: 'https://github.com/Medel03/Project-CICD-test'
+            }
+        }
+
+        stage("Add Jenkins User to Docker Group") {
+            steps {
+                script {
+                    // Exécuter la commande pour ajouter l'utilisateur 'jenkins' au groupe 'docker'
+                    sh 'usermod -aG docker jenkins'
+                }
             }
         }
 
