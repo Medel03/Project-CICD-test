@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             image 'med3301/jenkins-agent:1.1'
-            args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // mount Docker socket to access the host's Docker daemon
+            args '--user root -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/jenkins/workspace:/workspace' // mount Docker socket to access the host's Docker daemon
         } 
     }
 
@@ -26,14 +26,14 @@ pipeline {
 
         stage("Build Application") {
             steps {
-                sh 'ls -ltr'
-                sh 'mvn clean package'
+                sh 'ls -ltr /workspace''
+                sh 'cd /workspace && mvn clean package'
             }
         }
 
         stage("Test Application") {
             steps {
-                sh 'mvn test'
+                sh 'cd /workspace && mvn test'
             }
         }
         
