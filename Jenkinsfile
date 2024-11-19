@@ -18,8 +18,7 @@ pipeline {
                 git branch: 'main', credentialsId: 'github', url: 'https://github.com/Medel03/Project-CICD-test'
             }
         }
-
-        stages {
+        
         stage('Verify Workspace') {
             steps {
                 script {
@@ -28,7 +27,6 @@ pipeline {
                     }
                 }
             }
-        }
 
         stage("Build Application") {
             steps {
