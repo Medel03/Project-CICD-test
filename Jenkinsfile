@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'med3301/jenkins-agent:1.0'
-            args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // mount Docker socket to access the host's Docker daemon
-        } 
-    }
+    agent any
 
     tools {
         jdk 'Java17'  // Ensure Java 17 is installed in your Docker container or your Jenkins environment
