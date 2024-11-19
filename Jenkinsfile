@@ -1,9 +1,6 @@
 pipeline {
     agent {
-        docker {
-            image 'med3301/jenkins-agent:1.0'  // Docker image from Docker Hub
-            reuseNode true  // Reuse the same node for multiple steps, reducing overhead
-        }
+        label "jenkins"   
     }
 
     tools {
