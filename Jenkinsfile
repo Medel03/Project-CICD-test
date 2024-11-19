@@ -26,7 +26,7 @@ pipeline {
 
         stage("Build Application") {
             steps {
-                sh "ls -ltr /workspace/*"
+                sh "ls -ltr"
                 sh "cd workspace && mvn clean package"
             }
         }
