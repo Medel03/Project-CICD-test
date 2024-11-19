@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather for Cities</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Styling for the page */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        h2 {
+            font-size: 1.8em;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        #moroccan-cities, #global-cities {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 20px;
+            margin: 20px;
+        }
+
+        .city-weather {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            width: 150px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .city-weather img {
+            width: 50px;
+            height: 50px;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .city-weather {
+                width: 120px; /* Smaller size for tablets */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .city-weather {
+                width: 100px; /* Even smaller size for mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Weather for Cities</h1>
+        <p>Check out the current weather for Moroccan cities and global capitals!</p>
+    </header>
+
+    <!-- Moroccan Cities Group -->
+    <section id="moroccan-weather">
+        <h2>Moroccan Cities</h2>
+        <div id="moroccan-cities" class="weather-group">
+            <!-- Weather data for Moroccan cities will be displayed here -->
+        </div>
+    </section>
+
+    <!-- Global Capital Cities Group -->
+    <section id="global-weather">
+        <h2>Capital Cities from Around the World</h2>
+        <div id="global-cities" class="weather-group">
+            <!-- Weather data for global cities will be displayed here -->
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 WeatherApp</p>
+    </footer>
+
+    <script>
+        const apiKey = "784ac982040241a5b7b100626241911"; // Your WeatherAPI key
+
+        const moroccanCities = [
+            "Oujda", "Nador", "Fez", "Meknes", "Ifrane", "Rabat", "Kenitra",
+            "Marrakech", "Casablanca", "Agadir", "Taroudant", "Errachidia",
+            "Rissani", "Ouarzazate", "Dakhla"
+        ];
+
+        const globalCities = [
+            "London", "Paris", "New York", "Tokyo", "Beijing", "Berlin", "Moscow", "Rome",
+            "Cairo", "Buenos Aires", "Sydney", "Ottawa", "New Delhi", "Brasília", "Seoul"
+        ];
+
+        async function fetchWeatherData(cities, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = ""; // Clear previous content
+
+            for (const city of cities) {
+                const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}&lang=fr`;
+
+                try {
+                    const response = await fetch(url);
+                    const data = await response.json();
+
+                    if (data && data.location && data.current) {
+                        const { name } = data.location; // Extracting the city name correctly
+                        const { temp_c, condition, icon } = data.current; // Extracting temperature and condition
+
+                        const weatherIcon = condition.icon;
+                        const weatherDescription = condition.text;
+
+                        // Create HTML element for the city's weather
+                        const cityWeather = document.createElement("div");
+                        cityWeather.classList.add("city-weather");
+
+                        cityWeather.innerHTML = `
+                            <h3>${name}</h3>
+                            <img src="https:${weatherIcon}" alt="${weatherDescription}">
+                            <p><strong>Temperature:</strong> ${temp_c}°C</p>
+                            <p><strong>Condition:</strong> ${weatherDescription}</p>
+                        `;
+                        container.appendChild(cityWeather);
+                    } else {
+                        console.error("Error fetching weather data:", data);
+                    }
+                } catch (error) {
+                    console.error("Error fetching weather data:", error);
+                }
+            }
+        }
+
+        // Fetch weather data for both groups of cities
+        fetchWeatherData(moroccanCities, "moroccan-cities");
+        fetchWeatherData(globalCities, "global-cities");
+    </script>
+
+</body>
+</html>
+
+
+
+
