@@ -26,14 +26,14 @@ pipeline {
 
         stage("Build Application") {
             steps {
-                sh 'ls -ltr /workspace''
-                sh 'cd /workspace && mvn clean package'
+                sh "ls -ltr /workspace"
+                sh "cd /workspace && mvn clean package"
             }
         }
 
         stage("Test Application") {
             steps {
-                sh 'cd /workspace && mvn test'
+                sh "cd /workspace && mvn test"
             }
         }
         
