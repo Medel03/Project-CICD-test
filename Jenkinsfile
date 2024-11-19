@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'med3301/jenkins-agent:1.0'
+            args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // mount Docker socket to access the host's Docker daemon
+        } 
+    }
 
     tools {
         jdk 'Java17'  // Ensure Java 17 is installed in your Docker container or your Jenkins environment
@@ -19,7 +24,13 @@ pipeline {
             }
         }
 
-        stage("Build Application and Test") {
+        stage('Check Docker Access') {
+            steps {
+                sh 'docker ps'  // List running containers to verify Docker access
+            }
+        }
+
+        stage("Build Application") {
             steps {
                 sh 'ls -ltr'
                 sh 'mvn clean package'
