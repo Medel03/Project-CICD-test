@@ -10,27 +10,29 @@ pipeline {
     stages {
         stage('Check and Fix Permissions') {
             steps {
-                // Define the path to your workspace (adjust if needed)
-                def workspaceDir = '/var/lib/jenkins/workspace/e2e-pipeline-test'
+                script {
+                    // Define the path to your workspace (adjust if needed)
+                    def workspaceDir = '/var/lib/jenkins/workspace/e2e-pipeline-test'
             
-                // Check the current permissions on the workspace and target directory
-                echo "Checking permissions for ${workspaceDir}"
-                sh "ls -lR ${workspaceDir}/target || true"  // Listing all files to see current permissions
+                    // Check the current permissions on the workspace and target directory
+                    echo "Checking permissions for ${workspaceDir}"
+                    sh "ls -lR $(workspaceDir)/target || true"  // Listing all files to see current permissions
 
-                // Fix the permissions if needed
-                echo "Fixing permissions for ${workspaceDir}"
+                    // Fix the permissions if needed
+                    echo "Fixing permissions for $(workspaceDir)"
             
-                sh """
-                # Ensure jenkins user has ownership of the workspace and target folder
-                sudo chown -R jenkins:jenkins ${workspaceDir}
+                    sh """
+                    # Ensure jenkins user has ownership of the workspace and target folder
+                    sudo chown -R jenkins:jenkins $(workspaceDir)
                 
-                # Grant read, write, and execute permissions to the Jenkins user
-                sudo chmod -R u+rwx \${workspaceDir}
-                """
+                    # Grant read, write, and execute permissions to the Jenkins user
+                    sudo chmod -R u+rwx \$(workspaceDir)
+                    """
             
-                // Optionally, check again to confirm permissions were updated
-                echo "Confirming permissions after fixing"
-                sh "ls -lR ${workspaceDir}/target"
+                    // Optionally, check again to confirm permissions were updated
+                    echo "Confirming permissions after fixing"
+                    sh "ls -lR $(workspaceDir)/target"
+                }
             }
         }
 
