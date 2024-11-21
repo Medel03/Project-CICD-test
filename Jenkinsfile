@@ -26,10 +26,6 @@ pipeline {
                 
                 # Grant read, write, and execute permissions to the Jenkins user
                 sudo chmod -R u+rwx ${workspaceDir}
-                
-                # Additionally, ensure no files are locked
-                sudo find ${workspaceDir} -type f -exec chmod u+rw {} \;
-                """
             
                 // Optionally, check again to confirm permissions were updated
                 echo "Confirming permissions after fixing"
