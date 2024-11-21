@@ -29,7 +29,7 @@ pipeline {
             
                 // Optionally, check again to confirm permissions were updated
                 echo "Confirming permissions after fixing"
-                sh "ls -lR ${workspaceDir}/target"
+                sh 'ls -lR ' + workspaceDir + '/target'
             }
         }
 
