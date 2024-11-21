@@ -11,23 +11,11 @@ pipeline {
         stage('Check and Fix Permissions') {
             steps {
                 script {
-                    // Define the path to your workspace (adjust if needed)
-                    def workspaceDir = '/var/lib/jenkins/workspace/e2e-pipeline-test'
+                    sh 'sudo chown -R jenkins:jenkins /var/lib/jenkins/workspace/e2e-pipeline-test/'
+                    sh 'sudo chmod -R 755 /var/lib/jenkins/workspace/e2e-pipeline-test/target'
 
-                    // Fix the permissions if needed
-                    echo "Fixing permissions for \$(workspaceDir)"
-            
-                    sh """
-                    # Ensure jenkins user has ownership of the workspace and target folder
-                    sudo chown -R jenkins:jenkins \$(workspaceDir)
-                
-                    # Grant read, write, and execute permissions to the Jenkins user
-                    sudo chmod -R 755 \$(workspaceDir)/target
-                    """
-            
-                    // Optionally, check again to confirm permissions were updated
                     echo "Confirming permissions after fixing"
-                    sh "ls -lR \$(workspaceDir)/target"
+                    sh 'ls -lR /var/lib/jenkins/workspace/e2e-pipeline-test/target'
                 }
             }
         }
