@@ -8,14 +8,6 @@ pipeline {
     }
 
     stages {
-        stage('Debug Credentials') {
-            steps {
-                echo "Docker User: ${DOCKER_USER}"
-                echo "Image Name: ${IMAGE_NAME}"
-                echo "Jenkins API Token: ${JENKINS_API_TOKEN}"  // Avoid printing sensitive data
-            }
-        }
-        
         stage("Cleanup Workspace") {
             steps {
                 cleanWs()  // Clean the workspace before starting the build
