@@ -8,19 +8,6 @@ pipeline {
     }
 
     stages {
-        stage('Check and Fix Permissions') {
-            steps {
-                script {
-                    sh 'sudo chown -R jenkins:jenkins /var/lib/jenkins/workspace/e2e-pipeline-test/'
-                    sh 'sudo chmod -R 755 /var/lib/jenkins/workspace/e2e-pipeline-test/target'
-
-                    echo "Confirming permissions after fixing"
-                    sh 'ls -lR /var/lib/jenkins/workspace/e2e-pipeline-test/target'
-                }
-            }
-        }
-
-        
         stage("Cleanup Workspace") {
             steps {
                 cleanWs()  // Clean the workspace before starting the build
