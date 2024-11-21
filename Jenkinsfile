@@ -22,10 +22,10 @@ pipeline {
                 sh """
                 
                 # Ensure jenkins user has ownership of the workspace and target folder
-                sudo chown -R jenkins:jenkins ${workspaceDir}
+                sudo chown -R jenkins:jenkins "${workspaceDir}"
                 
                 # Grant read, write, and execute permissions to the Jenkins user
-                sudo chmod -R u+rwx ${workspaceDir}
+                sudo chmod -R u+rwx "${workspaceDir}"
             
                 // Optionally, check again to confirm permissions were updated
                 echo "Confirming permissions after fixing"
