@@ -16,14 +16,14 @@ pipeline {
             
                     // Check the current permissions on the workspace and target directory
                     echo "Checking permissions for ${workspaceDir}"
-                    sh "ls -lR $(workspaceDir)/target || true"  // Listing all files to see current permissions
+                    sh "ls -lR \$(workspaceDir)/target || true"  // Listing all files to see current permissions
 
                     // Fix the permissions if needed
-                    echo "Fixing permissions for $(workspaceDir)"
+                    echo "Fixing permissions for \$(workspaceDir)"
             
                     sh """
                     # Ensure jenkins user has ownership of the workspace and target folder
-                    sudo chown -R jenkins:jenkins $(workspaceDir)
+                    sudo chown -R jenkins:jenkins \$(workspaceDir)
                 
                     # Grant read, write, and execute permissions to the Jenkins user
                     sudo chmod -R u+rwx \$(workspaceDir)
@@ -31,7 +31,7 @@ pipeline {
             
                     // Optionally, check again to confirm permissions were updated
                     echo "Confirming permissions after fixing"
-                    sh "ls -lR $(workspaceDir)/target"
+                    sh "ls -lR \$(workspaceDir)/target"
                 }
             }
         }
